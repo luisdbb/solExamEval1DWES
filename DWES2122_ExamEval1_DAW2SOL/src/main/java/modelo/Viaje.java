@@ -34,7 +34,7 @@ public class Viaje {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "viajeparadas", joinColumns = { @JoinColumn(name = "idviaje") }, inverseJoinColumns = {
 			@JoinColumn(name = "idparada") })
-	private Set<Parada> paradas = new HashSet<Parada>();
+	private Set<Parada> trasbordos = new HashSet<Parada>();
 
 	public Viaje() {
 	}
@@ -87,6 +87,30 @@ public class Viaje {
 		this.lineas = lineas;
 	}
 
+	public Parada getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(Parada entrada) {
+		this.entrada = entrada;
+	}
+
+	public Parada getSalida() {
+		return salida;
+	}
+
+	public void setSalida(Parada salida) {
+		this.salida = salida;
+	}
+
+	public Set<Parada> getTrasbordos() {
+		return trasbordos;
+	}
+
+	public void setTrasbordos(Set<Parada> trasbordos) {
+		this.trasbordos = trasbordos;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -133,7 +157,7 @@ public class Viaje {
 	@Override
 	public String toString() {
 		return "Viaje id=" + id + "a fecha=" + fecha + "de " + duracion + "mins. efectuado por " + usuario.getNombre()
-				+ " por las lineas:" + lineas + " y las paradas: " + paradas;
+				+ " por las lineas:" + lineas + " y las trasbordos: " + trasbordos;
 	}
 
 }

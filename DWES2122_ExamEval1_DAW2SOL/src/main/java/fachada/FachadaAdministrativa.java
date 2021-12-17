@@ -45,14 +45,18 @@ public class FachadaAdministrativa {
 			break;
 		case 2:
 			System.out.println("Opcion ACTUALIZAR BONOS");
-			System.out.println(
-					"Se van a actualizar todos los bonos de mayores de 50 años a la categoria C mediante JDBC.");
+			System.out.println("Se van a actualizar todos los bonos de mayores de 50 años a la categoria C mediante JDBC.");
 			
-			servicios.getServiciosBonos().actualizarBonosMayores50();
-			ArrayList<Bono> todosbonos = servicios.getServiciosBonos().mostrarBonos();
-			for (Bono b : todosbonos) {
-				System.out.println("Bono de ID:" + b.getId()+" de categoria: "+ b.getCategoria());
+			if(servicios.getServiciosBonos().actualizarBonosMayores50()) {
+				ArrayList<Bono> todosbonos = servicios.getServiciosBonos().mostrarBonos();
+				for (Bono b : todosbonos) {
+					System.out.println("Bono de ID:" + b.getId()+" de categoria: "+ b.getCategoria());
+				}	
 			}
+			else {
+				System.out.println("Hubo un error al actualizar los bonos de las personas mayores de 50 años.");
+			}
+			
 			break;
 		case 3:
 			System.out.println("SALIR");

@@ -25,6 +25,8 @@ public class FachadaUsuario {
 			int edad = in.nextInt();
 			System.out.println("Introduzca la categoria de su bono (A, B o C):");
 			char cat = in.nextLine().charAt(0);
+			//TODO Deberian vlidarse los valores introducidos por el usuario para el nombre, para la edad y para la categoria 
+
 			Bono nuevobono = new Bono();
 			nuevobono.setCategoria(cat);
 			Usuario nuevousuario = new Usuario();
@@ -32,7 +34,7 @@ public class FachadaUsuario {
 			nuevousuario.setEdad(edad);
 			nuevousuario.setBono(nuevobono);
 			if (servicios.getServiciosUsuarios().crearUsuario(nuevousuario))
-				System.out.println("Se ha creado un nuevo usuario:" + nuevousuario);
+				System.out.println("Se ha creado un nuevo usuario de ID:" + nuevousuario.getId());
 			else
 				System.out.println("Hubo un error y no se creó el nuevo usuario.");
 			break;
@@ -41,11 +43,14 @@ public class FachadaUsuario {
 			System.out.println("Introduzca el nombre de la linea a buscar:");
 			nombre = in.nextLine();
 			ArrayList<Linea> lineasfiltradas = servicios.getServiciosLineas().buscarLineasPorNombre(nombre);
-			if (lineasfiltradas.size() > 0)
+			if (lineasfiltradas.size() > 0) {
 				System.out.println("Las siguientes lineas coinciden con su filtro de busqueda: <" + nombre + ">");
-			for (Linea l : lineasfiltradas) {
-				System.out.println("Linea " + l.getId() + " de nombre: " + l.getNombre());
+				for (Linea l : lineasfiltradas) {
+					System.out.println("Linea " + l.getId() + " de nombre: " + l.getNombre());
+				}
 			}
+			else
+				System.out.println("No hay lineas que se ajusten a su búsqueda.");
 			break;
 		case 3:
 			System.out.println("Opcion RECARGAR SALDO");
@@ -58,6 +63,7 @@ public class FachadaUsuario {
 						+ usuario.getBono().getCategoria());
 				System.out.println("Introduzca la cantidad a recargar en euros:");
 				float recarga = Float.valueOf(Double.toString(Utilidades.leerDouble()));
+				//TODO necesario validar el valor introducido para la recarga
 				usuario.getBono().setSaldo(usuario.getBono().getSaldo() + recarga);
 				if (servicios.getServiciosUsuarios().modificarUsuario(usuario))
 					System.out.println("Su nuevo saldo es de:" + usuario.getBono().getSaldo() + " euros.");
@@ -75,14 +81,14 @@ public class FachadaUsuario {
 			if (usuario != null) {
 				System.out.println("Bienvenid@ " + usuario.getNombre());
 				cat = usuario.getBono().getCategoria();
-				System.out.println("La categoria del bono es "+ cat);
-				if(cat=='C')
+				System.out.println("La categoria del bono es " + cat);
+				if (cat == 'C')
 					System.out.println("Su bono no puede subir de categoria.");
 				else {
-					System.out.println("¿Seguro que desea subor la categoria de su bono?");
-					boolean confirmacion = Utilidades.leerBoolean();	
-					if(confirmacion) {
-						switch(cat) {
+					System.out.println("¿Seguro que desea subir la categoria de su bono?");
+					boolean confirmacion = Utilidades.leerBoolean();
+					if (confirmacion) {
+						switch (cat) {
 						case 'A':
 							usuario.getBono().setCategoria('B');
 							break;
@@ -93,9 +99,7 @@ public class FachadaUsuario {
 						servicios.getServiciosUsuarios().modificarUsuario(usuario);
 					}
 				}
-					
-				
-				
+
 			} else
 				System.out.println("EROR: No se ha encontrado un usuario con ese NIF.");
 			break;
@@ -116,9 +120,12 @@ public class FachadaUsuario {
 						System.out.println("ID:" + l.getId() + " Linea " + l.getNombre());
 					}
 					int idlinea = in.nextInt();
+					
+					
 					Linea lineaembarque = servicios.getServiciosLineas().findById(idlinea);
 					if (lineaembarque != null) {
 						Viaje nuevoviaje = new Viaje();
+						nuevoviaje.setEntrada(null);//TODO
 						nuevoviaje.setUsuario(usuario);
 						nuevoviaje.setFecha(Date.valueOf(LocalDate.now()));
 						nuevoviaje.getLineas().add(lineaembarque);
@@ -188,7 +195,10 @@ public class FachadaUsuario {
 					// TODO calcular diferencia entre ahora yviajeactual.getFecha()
 					viajeactual.setDuracion(duracion);
 					viajeactual.getLineas().add(lineadesembarque);
-
+					
+					
+					//viajeactual.setSalida(PArada);
+					
 					if (servicios.getServiciosUsuarios().modificarUsuario(usuario))
 						System.out.println("Registrado desembarque del viaje de ID:" + viajeactual.getId()
 								+ " desde la linea " + lineadesembarque.getId() + " (duracion del viaje: "
@@ -242,9 +252,13 @@ public class FachadaUsuario {
 				precio = 1.20F;
 			break;
 		case 'B':
+			if (ahora.isAfter(mediodia))
+				precio = 1.20F;
 			precio *= 0.95;
 			break;
 		case 'C':
+			if (ahora.isAfter(mediodia))
+				precio = 1.20F;
 			precio *= 0.90;
 			break;
 		default:

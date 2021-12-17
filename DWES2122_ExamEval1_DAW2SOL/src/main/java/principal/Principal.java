@@ -58,7 +58,7 @@ public class Principal {
 				System.out.println("Saliendo...");
 				break;
 			}
-		} while (opcion != 0);
+		} while (opcion != 3); //opcion SALIR del menu de eleccion de rol de usuario
 
 		System.out.println("GRACIAS por su visita.");
 	}

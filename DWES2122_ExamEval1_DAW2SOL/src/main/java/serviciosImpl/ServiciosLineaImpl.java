@@ -46,8 +46,7 @@ public class ServiciosLineaImpl implements ServiciosLinea {
 	}
 
 	public ArrayList<Linea> buscarLineasPorNombre(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
+		return daos.getLineaDAO_JDBC().buscarLineasPorNombre(nombre);
 	}
 
 }

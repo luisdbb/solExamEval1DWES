@@ -28,7 +28,7 @@ public class Parada {
 	private Set<Linea> lineas = new HashSet<Linea>();
 	
 	
-	private Set<Viaje> viajes = new HashSet<Viaje>();
+	//private Set<Viaje> viajes = new HashSet<Viaje>();
 
 	public Parada() {
 	}

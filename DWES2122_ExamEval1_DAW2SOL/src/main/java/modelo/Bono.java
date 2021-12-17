@@ -13,6 +13,7 @@ public class Bono {
 	@Column(nullable=false)
 	private char categoria;
 	private float saldo = 0.0f;
+	
 	@Column(nullable=true)
 	@OneToOne(mappedBy="bono")
 	private Usuario usuario;
